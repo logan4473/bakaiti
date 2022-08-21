@@ -1,13 +1,29 @@
 const express = require("express");
+const http = require("http");
+const socketio = require("socket.io");
+const cors = require("cors");
 
 require("dotenv").config();
 require("./config/mongodb");
 
 const app = express();
 const port = 4000;
+const server = http.createServer(app);
+const io = socketio(server, {
+  cors: {
+    origin: "http://localhost:3000",
+  },
+});
 
+app.use(cors());
 app.use("/", require("./routers"));
 
-app.listen(process.env.PORT || port, () => {
+io.on("connection", (socket) => {
+  console.log("user connected", socket.id);
+
+  socket.emit("message", `Working : ${socket.id}`);
+});
+
+server.listen(process.env.PORT || port, () => {
   console.log(`App is running on port ${process.env.PORT || port}`);
 });
