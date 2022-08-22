@@ -17,12 +17,7 @@ const io = socketio(server, {
 
 app.use(cors());
 app.use("/", require("./routers"));
-
-io.on("connection", (socket) => {
-  console.log("user connected", socket.id);
-
-  socket.emit("message", `Working : ${socket.id}`);
-});
+io.on("connection", require("./routers/message").connection);
 
 server.listen(process.env.PORT || port, () => {
   console.log(`App is running on port ${process.env.PORT || port}`);
