@@ -2,6 +2,7 @@ const express = require("express");
 const http = require("http");
 const socketio = require("socket.io");
 const cors = require("cors");
+const { socketConnection } = require("./controllers/message");
 
 require("dotenv").config();
 require("./config/mongodb");
@@ -17,7 +18,7 @@ const io = socketio(server, {
 
 app.use(cors());
 app.use("/", require("./routers"));
-io.on("connection", require("./routers/message").connection);
+io.on("connection", socketConnection);
 
 server.listen(process.env.PORT || port, () => {
   console.log(`App is running on port ${process.env.PORT || port}`);
