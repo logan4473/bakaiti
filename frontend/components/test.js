@@ -34,12 +34,14 @@ function Test() {
   return (
     <>
       {!isLogged ? (
-        <form onSubmit={login}>
+        <form onSubmit={login} className="bg-color2">
           Enter Username
           <br />
           <input type="text" name="username" />
           <br />
-          <button type="submit">Send</button>
+          <button type="submit" className="btn btn-success">
+            Send
+          </button>
         </form>
       ) : (
         <form onSubmit={sendMessage}>
